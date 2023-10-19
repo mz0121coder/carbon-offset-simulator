@@ -1,29 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './assets/mz-tech-logo.png';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { loggedInState, defaultEmissions } from './utils/atoms.js';
+import axios from 'axios';
+import cheerio from 'cheerio';
 
 const App = () => {
 	const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
 	const [showModal, setShowModal] = useState(false);
-	const emmisions = useRecoilValue(defaultEmissions);
+	const emissions = useRecoilValue(defaultEmissions);
 
-	const handleLogout = () => {
-		setShowModal(true); // Show the confirmation modal
-	};
-
-	const confirmLogout = () => {
-		setLoggedIn(false);
-		setShowModal(false); // Hide the confirmation modal
-	};
-
-	const cancelLogout = () => {
-		setShowModal(false); // Hide the confirmation modal
-	};
+	useEffect(() => {
+		const fetchData = async () => {
+			const result = await axios.get(
+				'https://www.worldometers.info/co2-emissions/co2-emissions-per-capita/'
+			);
+			return cheerio.load(result.data);
+		};
+		// CO2 emmissions data or all countries
+		const scrapeData = async () => {
+			const $ = await fetchData();
+			const tableRows = $('table#example2 tbody tr');
+			const emissionsData = [];
+			tableRows.each((index, element) => {
+				const country = $(element).find('td:nth-child(2)').text().trim();
+				const emissionsPerCapita = $(element)
+					.find('td:nth-child(3)')
+					.text()
+					.trim();
+				emissionsData.push({ country, emissionsPerCapita });
+			});
+			return emissionsData;
+		};
+		// Update default values if they are different
+		scrapeData()
+			.then(data => {
+				if (JSON.stringify(emissions) !== JSON.stringify(data)) {
+					setEmissions(data);
+				}
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	}, []);
 
 	return (
 		<div className='flex flex-col items-center leading-loose gap-4'>
-			{emmisions[1].country}
+			{emissions[1].country}
 			{!loggedIn ? (
 				<>
 					<img src={logo} alt='MZ tech logo' className='w-64 h-64' />
@@ -47,7 +70,7 @@ const App = () => {
 						</h1>
 						<button
 							className='mt-[1.5vw] px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700'
-							onClick={handleLogout}>
+							onClick={() => setShowModal(true)}>
 							Logout
 						</button>
 					</div>
@@ -58,12 +81,15 @@ const App = () => {
 								<div className='flex justify-end mt-4'>
 									<button
 										className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 mr-2'
-										onClick={confirmLogout}>
+										onClick={() => {
+											setLoggedIn(false);
+											setShowModal(false);
+										}}>
 										Yes
 									</button>
 									<button
 										className='px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400'
-										onClick={cancelLogout}>
+										onClick={() => setShowModal(false)}>
 										No
 									</button>
 								</div>

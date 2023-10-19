@@ -17,7 +17,7 @@ export const defaultTreeState = atom({
 	},
 });
 // default values as of 19th October 2023
-// this gets updated on render with the scrapeData function in emmissions.js
+// this gets updated with the scrapeData function in App.jsx
 export const defaultEmissions = atom({
 	key: 'defaultEmissions',
 	default: [
