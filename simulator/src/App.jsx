@@ -40,7 +40,7 @@ const App = () => {
 							Carbon Offset Simulator
 						</h1>
 						<button
-							className='mt-[1.5vw] px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700'
+							className='mt-[1.5vw] px-2 py-1 bg-red-500 text-white rounded hover:bg-red-700'
 							onClick={() => setShowModal(true)}>
 							Logout
 						</button>
@@ -49,9 +49,9 @@ const App = () => {
 						<div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
 							<div className='bg-white p-4 rounded'>
 								<p className='text-lg'>Are you sure you want to logout?</p>
-								<div className='flex justify-end mt-4'>
+								<div className='flex justify-end mt-4 gap-4'>
 									<button
-										className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 mr-2'
+										className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 mr-2 w-[70px]'
 										onClick={() => {
 											setLoggedIn(false);
 											setShowModal(false);
@@ -59,7 +59,7 @@ const App = () => {
 										Yes
 									</button>
 									<button
-										className='px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400'
+										className='px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 w-[70px]'
 										onClick={() => setShowModal(false)}>
 										No
 									</button>
@@ -67,12 +67,12 @@ const App = () => {
 							</div>
 						</div>
 					)}
-					<button
+					{/* <button
 						className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700'
 						onClick={handleUpdateData}>
 						Update Data
-					</button>
-					{showConfig && <SimInputs />}
+					</button> */}
+					<SimInputs />
 					<Summary />
 					<CarbonOffsets />
 					<Expenditure />
