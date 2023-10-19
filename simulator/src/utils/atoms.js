@@ -7,16 +7,33 @@ export const loggedInState = atom({
 	default: false,
 });
 
-export const country = atom({ key: 'country', default: 'United Kingdom' });
-export const annualConsumption = atom({
-	key: 'annualConsumption',
-	default: 15.52,
+export const simulatorInputs = atom({
+	key: 'simulatorInputs',
+	default: {
+		country: 'United States',
+		annualConsumption: 15.52,
+		upfrontCost: 120,
+		annualCost: 12,
+		carbonOffset: 28.5,
+		treesPerMonth: 1,
+	},
 });
-export const upfrontCost = atom({ key: 'upfrontCost', default: 120 });
-export const annualCost = atom({ key: 'annualCost', default: 12 });
-export const carbonOffset = atom({ key: 'carbonOffset', default: 28.5 });
-export const treesPerMonth = atom({ key: 'treesPerMonth', default: 1 });
 
+export const countryData = atom({
+	key: 'countryData',
+	default: {
+		'United States': 15.52,
+		'United Kingdom': 5.55,
+		Germany: 9.44,
+		'South Africa': 6.95,
+		India: 1.91,
+		China: 7.38,
+		Singapore: 8.56,
+		Australia: 17.1,
+	},
+});
+
+/*
 // default values as of 19th October 2023
 // this gets updated with the scrapeData function in App.jsx
 export const defaultEmissions = atom({
@@ -433,3 +450,4 @@ export const countries = atom({
 		'Zimbabwe',
 	],
 });
+*/

@@ -6,45 +6,12 @@ import CarbonOffsets from './components/CarbonOffsets';
 import Expenditure from './components/Expenditure';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { loggedInState, defaultEmissions } from './utils/atoms.js';
-import axios from 'axios';
-import cheerio from 'cheerio';
+
 const App = () => {
 	const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
 	const [showModal, setShowModal] = useState(false);
 	const emissions = useRecoilValue(defaultEmissions);
-	useEffect(() => {
-		const fetchData = async () => {
-			const result = await axios.get(
-				'https://www.worldometers.info/co2-emissions/co2-emissions-per-capita/'
-			);
-			return cheerio.load(result.data);
-		};
-		// Dynamically scrape CO2 emmissions data for all countries
-		const scrapeData = async () => {
-			const $ = await fetchData();
-			const tableRows = $('table#example2 tbody tr');
-			const emissionsData = [];
-			tableRows.each((index, element) => {
-				const country = $(element).find('td:nth-child(2)').text().trim();
-				const emissionsPerCapita = $(element)
-					.find('td:nth-child(3)')
-					.text()
-					.trim();
-				emissionsData.push({ country, emissionsPerCapita });
-			});
-			return emissionsData;
-		};
-		// Update the default values if they are different
-		scrapeData()
-			.then(data => {
-				if (JSON.stringify(emissions) !== JSON.stringify(data)) {
-					setEmissions(data);
-				}
-			})
-			.catch(error => {
-				console.log(error);
-			});
-	}, []);
+
 	return (
 		<div className='flex flex-col items-center leading-loose gap-4'>
 			{!loggedIn ? (
