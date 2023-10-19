@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import logo from './assets/mz-tech-logo.png';
+import SimInputs from './components/SimInputs';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { loggedInState, defaultEmissions } from './utils/atoms.js';
 import axios from 'axios';
@@ -17,7 +18,7 @@ const App = () => {
 			);
 			return cheerio.load(result.data);
 		};
-		// CO2 emmissions data or all countries
+		// Dynamically scrape CO2 emmissions data for all countries
 		const scrapeData = async () => {
 			const $ = await fetchData();
 			const tableRows = $('table#example2 tbody tr');
@@ -32,7 +33,7 @@ const App = () => {
 			});
 			return emissionsData;
 		};
-		// Update default values if they are different
+		// Update the default values if they are different
 		scrapeData()
 			.then(data => {
 				if (JSON.stringify(emissions) !== JSON.stringify(data)) {
@@ -46,7 +47,6 @@ const App = () => {
 
 	return (
 		<div className='flex flex-col items-center leading-loose gap-4'>
-			{emissions[1].country}
 			{!loggedIn ? (
 				<>
 					<img src={logo} alt='MZ tech logo' className='w-64 h-64' />
