@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import logo from './assets/mz-tech-logo.png';
 import SimInputs from './components/SimInputs';
+import Summary from './components/Summary';
+import CarbonOffsets from './components/CarbonOffsets';
+import Expenditure from './components/Expenditure';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { loggedInState, defaultEmissions } from './utils/atoms.js';
 import axios from 'axios';
 import cheerio from 'cheerio';
-
 const App = () => {
 	const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
 	const [showModal, setShowModal] = useState(false);
 	const emissions = useRecoilValue(defaultEmissions);
-
 	useEffect(() => {
 		const fetchData = async () => {
 			const result = await axios.get(
@@ -44,7 +45,6 @@ const App = () => {
 				console.log(error);
 			});
 	}, []);
-
 	return (
 		<div className='flex flex-col items-center leading-loose gap-4'>
 			{!loggedIn ? (
@@ -96,10 +96,15 @@ const App = () => {
 							</div>
 						</div>
 					)}
+					<div className='grid grid-cols-[1fr] gap-4 md:grid md:grid-cols-[repeat(2,_1fr)] md:grid-rows-[repeat(2,_1fr)] md:gap-4'>
+						<SimInputs />
+						<Summary />
+						<CarbonOffsets />
+						<Expenditure />
+					</div>
 				</>
 			)}
 		</div>
 	);
 };
-
 export default App;
