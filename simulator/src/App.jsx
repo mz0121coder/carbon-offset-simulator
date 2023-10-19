@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import logo from './assets/mz-tech-logo.png';
-import { useRecoilState } from 'recoil';
-import { loggedInState } from './utils/atoms.js';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { loggedInState, defaultEmissions } from './utils/atoms.js';
 
 const App = () => {
 	const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
 	const [showModal, setShowModal] = useState(false);
+	const emmisions = useRecoilValue(defaultEmissions);
 
 	const handleLogout = () => {
 		setShowModal(true); // Show the confirmation modal
@@ -22,6 +23,7 @@ const App = () => {
 
 	return (
 		<div className='flex flex-col items-center leading-loose gap-4'>
+			{emmisions[1].country}
 			{!loggedIn ? (
 				<>
 					<img src={logo} alt='MZ tech logo' className='w-64 h-64' />
