@@ -46,3 +46,8 @@ export const countriesList = atom({
 		'Australia',
 	],
 });
+
+export const updateData = atom({
+	key: 'updateData',
+	default: false,
+});

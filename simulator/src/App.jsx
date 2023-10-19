@@ -5,11 +5,16 @@ import Summary from './components/Summary';
 import CarbonOffsets from './components/CarbonOffsets';
 import Expenditure from './components/Expenditure';
 import { useRecoilState } from 'recoil';
-import { loggedInState } from './utils/atoms.js';
+import { loggedInState, updateData } from './utils/atoms.js';
 
 const App = () => {
 	const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
 	const [showModal, setShowModal] = useState(false);
+	const [showConfig, setShowConfig] = useRecoilState(updateData);
+
+	const handleUpdateData = () => {
+		setShowConfig(true);
+	};
 
 	return (
 		<div className='flex flex-col items-center leading-loose gap-4'>
@@ -62,15 +67,19 @@ const App = () => {
 							</div>
 						</div>
 					)}
-					<div className='grid grid-cols-[1fr] gap-2 md:grid md:grid-cols-[repeat(2,_1fr)] md:grid-rows-[repeat(2,_1fr)] md:gap-2'>
-						<SimInputs />
-						<Summary />
-						<CarbonOffsets />
-						<Expenditure />
-					</div>
+					<button
+						className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700'
+						onClick={handleUpdateData}>
+						Update Data
+					</button>
+					{showConfig && <SimInputs />}
+					<Summary />
+					<CarbonOffsets />
+					<Expenditure />
 				</>
 			)}
 		</div>
 	);
 };
+
 export default App;
