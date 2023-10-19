@@ -4,13 +4,12 @@ import SimInputs from './components/SimInputs';
 import Summary from './components/Summary';
 import CarbonOffsets from './components/CarbonOffsets';
 import Expenditure from './components/Expenditure';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { loggedInState, defaultEmissions } from './utils/atoms.js';
+import { useRecoilState } from 'recoil';
+import { loggedInState } from './utils/atoms.js';
 
 const App = () => {
 	const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
 	const [showModal, setShowModal] = useState(false);
-	const emissions = useRecoilValue(defaultEmissions);
 
 	return (
 		<div className='flex flex-col items-center leading-loose gap-4'>

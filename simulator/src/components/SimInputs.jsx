@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-	country,
-	annualConsumption,
-	upfrontCost,
-	annualCost,
-	carbonOffset,
-	treesPerMonth,
-} from '../utils/atoms';
 import { useRecoilState } from 'recoil';
-import { useSearchParams } from 'react-router-dom';
 
 const SimInputs = () => {
 	return (
