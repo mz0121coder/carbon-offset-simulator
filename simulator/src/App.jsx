@@ -96,7 +96,7 @@ const App = () => {
 							</div>
 						</div>
 					)}
-					<div className='grid grid-cols-[1fr] gap-4 md:grid md:grid-cols-[repeat(2,_1fr)] md:grid-rows-[repeat(2,_1fr)] md:gap-4'>
+					<div className='grid grid-cols-[1fr] gap-2 md:grid md:grid-cols-[repeat(2,_1fr)] md:grid-rows-[repeat(2,_1fr)] md:gap-2'>
 						<SimInputs />
 						<Summary />
 						<CarbonOffsets />

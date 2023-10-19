@@ -7,25 +7,15 @@ export const loggedInState = atom({
 	default: false,
 });
 
-export const defaultTreeState = atom({
-	key: 'defaultTreeState',
-	default: {
-		initialCost: 120,
-		annualCost: 12,
-		annualOffset: 28.5,
-		yearsToGrow: 5,
-	},
+export const country = atom({ key: 'country', default: 'United Kingdom' });
+export const annualConsumption = atom({
+	key: 'annualConsumption',
+	default: 15.52,
 });
-
-export const currentTreeState = atom({
-	key: 'currentTreeState',
-	default: {
-		initialCost: 120,
-		annualCost: 12,
-		annualOffset: 28.5,
-		yearsToGrow: 5,
-	},
-});
+export const upfrontCost = atom({ key: 'upfrontCost', default: 120 });
+export const annualCost = atom({ key: 'annualCost', default: 12 });
+export const carbonOffset = atom({ key: 'carbonOffset', default: 28.5 });
+export const treesPerMonth = atom({ key: 'treesPerMonth', default: 1 });
 
 // default values as of 19th October 2023
 // this gets updated with the scrapeData function in App.jsx
