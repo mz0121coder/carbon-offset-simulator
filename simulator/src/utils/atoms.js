@@ -32,3 +32,17 @@ export const countryData = atom({
 		Australia: 17.1,
 	},
 });
+
+export const countriesList = atom({
+	key: 'countriesList',
+	default: [
+		'United States',
+		'United Kingdom',
+		'Germany',
+		'South Africa',
+		'India',
+		'China',
+		'Singapore',
+		'Australia',
+	],
+});
