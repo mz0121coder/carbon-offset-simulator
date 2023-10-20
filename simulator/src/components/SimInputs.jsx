@@ -15,10 +15,10 @@ const SimInputs = () => {
 	const [resetModal, setResetModal] = useState(false);
 	const [showSnackbar, setShowSnackbar] = useState(false);
 
-	const [annualConsumption, setAnnualConsumption] = useState(
-		defaultInputs.annualConsumption
-	);
-	const [inflation, setInflation] = useState(defaultInputs.inflation);
+	// const [annualConsumption, setAnnualConsumption] = useState(
+	// 	defaultInputs.annualConsumption
+	// );
+	// const [inflation, setInflation] = useState(defaultInputs.inflation);
 
 	const [summary, setSummary] = useState(
 		() => JSON.parse(localStorage.getItem('summary')) || ''
@@ -26,10 +26,22 @@ const SimInputs = () => {
 
 	useEffect(() => {
 		localStorage.setItem('summary', JSON.stringify(summary));
-	}, [summary]);
+	});
 
 	useEffect(() => {
 		localStorage.setItem('formData', JSON.stringify(formData));
+	});
+
+	useEffect(() => {
+		const newForm = { ...formData };
+		newForm.annualConsumption = countryData[formData.country];
+		newForm.inflation = inflationRates[formData.country];
+		setFormData(newForm);
+	}, [formData.country]);
+
+	useEffect(() => {
+		const newSummary = getSummary(formData);
+		setSummary(newSummary);
 	}, [formData]);
 
 	const handleReset = () => {
@@ -44,11 +56,11 @@ const SimInputs = () => {
 		if (isInvalid.length > 1) {
 			setErrorModal(true);
 		} else {
-			// Use the getSummary function with formData as input
-			const newForm = { ...formData };
-			newForm.annualConsumption = countryData[formData.country];
-			newForm.inflation = inflationRates[formData.country];
-			setFormData(newForm);
+			// // Use the getSummary function with formData as input
+			// const newForm = { ...formData };
+			// newForm.annualConsumption = countryData[formData.country];
+			// newForm.inflation = inflationRates[formData.country];
+			// setFormData(newForm);
 			const newSummary = getSummary(formData);
 			console.log({ newSummary });
 			setSummary(newSummary);
