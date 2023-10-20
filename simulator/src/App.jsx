@@ -10,11 +10,11 @@ import { loggedInState, updateData } from './utils/atoms.js';
 const App = () => {
 	const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
 	const [showModal, setShowModal] = useState(false);
-	const [showConfig, setShowConfig] = useRecoilState(updateData);
+	// const [showConfig, setShowConfig] = useRecoilState(updateData);
 
-	const handleUpdateData = () => {
-		setShowConfig(true);
-	};
+	// const handleUpdateData = () => {
+	// 	setShowConfig(true);
+	// };
 
 	return (
 		<div className='flex flex-col items-center leading-loose gap-4'>

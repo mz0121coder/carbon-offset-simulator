@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { countryData, countriesList, updateData } from '../utils/atoms';
 import { simulatorInputs } from '../utils/atoms';
@@ -7,6 +7,7 @@ const SimInputs = () => {
 	const [formData, setFormData] = useRecoilState(simulatorInputs);
 	const [countriesInfo, setCountriesInfo] = useRecoilState(countryData);
 	const [countries, setCountries] = useRecoilState(countriesList);
+	const [errorModal, setErrorModal] = useState(false);
 
 	const handleReset = () => {
 		setFormData({
@@ -20,9 +21,17 @@ const SimInputs = () => {
 	};
 
 	const handleSubmit = () => {
-		// Perform any necessary data updates or API calls here
-		// Display a snackbar with the message 'Data Updated!'
-		alert('Data Updated!');
+		// Validate input fields
+		const inputs = Object.values(formData);
+		const isInvalid = inputs.filter(input => !/[0-9](\.[0-9]+)?$/.test(input));
+
+		if (isInvalid.length > 1) {
+			setErrorModal(true);
+		} else {
+			// Perform any necessary data updates or API calls here
+			// Display a snackbar with the message 'Data Updated!'
+			alert('Data Updated!');
+		}
 	};
 
 	return (
@@ -126,8 +135,8 @@ const SimInputs = () => {
 						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
 					/>
 				</div>
-			</div>{' '}
-			<div className='flex justify-between [@media(max-width:400px)]:w-[95vw] min-w-[300px] max-w-[600px]'>
+			</div>
+			<div className='flex justify-around [@media(max-width:400px)]:w-[95vw] min-w-[300px] max-w-[600px]'>
 				<button
 					className='px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-700'
 					onClick={handleReset}>
@@ -139,6 +148,22 @@ const SimInputs = () => {
 					Submit Data
 				</button>
 			</div>
+			{errorModal && (
+				<div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
+					<div className='bg-white p-4 rounded min-w-[280px] max-w-[500px]'>
+						<p className='text-lg'>
+							Each input except country must be a number
+						</p>
+						<div className='flex justify-end mt-4'>
+							<button
+								className='px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400'
+								onClick={() => setErrorModal(false)}>
+								Close
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</>
 	);
 };
