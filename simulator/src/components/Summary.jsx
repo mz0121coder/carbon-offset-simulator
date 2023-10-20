@@ -6,11 +6,8 @@ const Summary = () => {
 	);
 
 	useEffect(() => {
-		// const handleStorageChange = () => {
-		setSummary(JSON.parse(localStorage.getItem('summary')));
-		// };
-		// handleStorageChange();
-	}, [summary]);
+		setSummary(JSON.parse(localStorage.getItem('summary'))) || '';
+	});
 
 	return (
 		<div className='border border-black w-[90vw] h-auto md:w-[50vw] md:h-auto p-4'>
@@ -28,6 +25,41 @@ const Summary = () => {
 							</li>
 						))}
 					</ul>
+
+					<table className='mt-8 w-full'>
+						<thead>
+							<tr>
+								<th className='py-2 px-4 border border-gray-400'>Month</th>
+								<th className='py-2 px-4 border border-gray-400'>
+									Maintenance
+								</th>
+								<th className='py-2 px-4 border border-gray-400'>
+									Purchase Costs
+								</th>
+								<th className='py-2 px-4 border border-gray-400'>
+									Total Costs
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{summary.expenseTable.map((item, idx) => (
+								<tr key={idx}>
+									<td className='py-2 px-4 border border-gray-400'>
+										{item.month}
+									</td>
+									<td className='py-2 px-4 border border-gray-400'>
+										{item.totalMaintenanceCosts}
+									</td>
+									<td className='py-2 px-4 border border-gray-400'>
+										{item.purchaseCosts}
+									</td>
+									<td className='py-2 px-4 border border-gray-400'>
+										{item.totalCosts}
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
 				</>
 			)}
 		</div>
