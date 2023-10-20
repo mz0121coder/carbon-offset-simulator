@@ -17,11 +17,14 @@ export const getSummary = inputs => {
 	// starting values
 	let months = 0;
 	let offsetPerMonth = 0;
-	let cost = inputs.upfrontCost;
+	let totalCost = inputs.upfrontCost;
 	// inflation adjusted monthly upkeep
-	const monthlyInflation = inputs.inflation / 100 / 12;
-	const monthlyCost =
-		inputs.annualCost / 12 + monthlyInflation * (inputs.annualCost / 12);
+	const annualInflationRate = inputs.inflation / 100;
+	const monthlyInflationRate = Math.pow(1 + annualInflationRate, 1 / 12) - 1;
+	const costPerMonth =
+		inputs.annualCost / 12 + monthlyInflationRate * (inputs.annualCost / 12);
+	console.log('Monthly Inflation Rate:', monthlyInflationRate);
+
 	let treeCount = 0;
 	const treesPlanted = [];
 	const summaryTable = [];
@@ -30,7 +33,7 @@ export const getSummary = inputs => {
 	while (offsetPerMonth < monthlyEmissions) {
 		treeCount += inputs.treesPerMonth;
 		months++;
-		cost += monthlyCost;
+		totalCost += costPerMonth + costPerMonth * monthlyInflationRate;
 		// this will be multiplied by trees per month
 		const newTrees = { monthPlanted: months, amount: inputs.treesPerMonth };
 		treesPlanted.push(newTrees);
@@ -60,28 +63,19 @@ export const getSummary = inputs => {
 			month: 'long',
 			year: 'numeric',
 		});
-
-		console.log({
-			currentMonthYear,
-			futureMonthYear,
-			months,
-			offsetPerMonth,
-			monthlyEmissions,
-			monthlyCost,
-		});
-
-		// update the summary table
+		// update summary table each month
 		summaryTable.push({
 			month: futureMonthYear,
 			months: months,
 			trees: treeCount,
-			offset: offsetPerMonth.toFixed(2),
+			offset: Number(offsetPerMonth.toFixed(2)),
+			difference: -Number(
+				(Number(monthlyEmissions) - Number(offsetPerMonth)).toFixed(2)
+			),
 		});
-		// store summary
+
 		if (offsetPerMonth >= monthlyEmissions) {
-			console.log(summaryTable);
-			localStorage.setItem('summaryTable', JSON.stringify(summaryTable));
-			const summary = [`Your average monthly`];
+			return { summaryTable: summaryTable };
 		}
 	}
 };
