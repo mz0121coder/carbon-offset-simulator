@@ -20,6 +20,14 @@ const SimInputs = () => {
 	);
 	const [inflation, setInflation] = useState(defaultInputs.inflation);
 
+	const [summary, setSummary] = useState(
+		() => JSON.parse(localStorage.getItem('summary')) || ''
+	);
+
+	useEffect(() => {
+		localStorage.setItem('summary', JSON.stringify(summary));
+	}, [summary]);
+
 	useEffect(() => {
 		localStorage.setItem('formData', JSON.stringify(formData));
 	}, [formData]);
@@ -41,9 +49,9 @@ const SimInputs = () => {
 			newForm.annualConsumption = countryData[formData.country];
 			newForm.inflation = inflationRates[formData.country];
 			setFormData(newForm);
-			const summary = getSummary(formData);
-			console.log({ summary });
-			localStorage.setItem('summary', JSON.stringify(summary));
+			const newSummary = getSummary(formData);
+			console.log({ newSummary });
+			setSummary(newSummary);
 
 			setShowSnackbar(true);
 			setTimeout(() => {

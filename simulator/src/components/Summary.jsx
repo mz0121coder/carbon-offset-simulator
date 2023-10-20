@@ -5,6 +5,13 @@ const Summary = () => {
 		JSON.parse(localStorage.getItem('summary')) || ''
 	);
 
+	useEffect(() => {
+		// const handleStorageChange = () => {
+		setSummary(JSON.parse(localStorage.getItem('summary')));
+		// };
+		// handleStorageChange();
+	}, [summary]);
+
 	return (
 		<div className='border border-black w-[90vw] h-auto md:w-[50vw] md:h-auto p-4'>
 			{!summary ? (
