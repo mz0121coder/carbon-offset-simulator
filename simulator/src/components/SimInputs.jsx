@@ -10,8 +10,8 @@ const SimInputs = () => {
 	const [formData, setFormData] = useState(
 		() => JSON.parse(localStorage.getItem('formData')) || defaultInputs
 	);
-
 	const [errorModal, setErrorModal] = useState(false);
+	const [resetModal, setResetModal] = useState(false);
 	const [showSnackbar, setShowSnackbar] = useState(false);
 
 	useEffect(() => {
@@ -20,8 +20,8 @@ const SimInputs = () => {
 
 	const handleReset = () => {
 		setFormData(defaultInputs);
+		setResetModal(false);
 	};
-
 	const handleSubmit = () => {
 		// Validate input fields
 		const inputs = Object.values(formData);
@@ -36,7 +36,6 @@ const SimInputs = () => {
 			}, 3000);
 		}
 	};
-
 	return (
 		<>
 			<div className='grid grid-cols-[repeat(2,_1fr)] grid-rows-[repeat(3,_1fr)] [@media(max-width:400px)]:w-[95vw] min-w-[300px] max-w-[600px] bg-gray-100 rounded p-4'>
@@ -110,19 +109,19 @@ const SimInputs = () => {
 					/>
 				</div>
 				<div className='flex flex-col'>
-					<label htmlFor='carbonOffset' className='font-bold'>
-						Carbon Offset
+					<label htmlFor='timeToGrow' className='font-bold'>
+						Years to grow
 					</label>
 					<input
 						type='number'
-						id='carbonOffset'
-						value={formData.carbonOffset}
+						id='timeToGrow'
+						value={formData.timeToGrow}
 						onChange={e =>
-							setFormData({ ...formData, carbonOffset: Number(e.target.value) })
+							setFormData({ ...formData, timeToGrow: Number(e.target.value) })
 						}
-						min={10}
-						max={50}
-						step={0.01}
+						min={1}
+						max={20}
+						step={1}
 						className='  border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
 					/>
 				</div>
@@ -147,7 +146,7 @@ const SimInputs = () => {
 				</div>
 				<div className='flex flex-col'>
 					<label htmlFor='annualConsumption' className='font-bold'>
-						Avg CO<sub>2</sub> / yr
+						Avg CO2 / yr
 					</label>
 					<input
 						min={1}
@@ -187,7 +186,10 @@ const SimInputs = () => {
 			<div className='flex justify-around [@media(max-width:400px)]:w-[95vw] min-w-[300px] max-w-[600px]'>
 				<button
 					className='px-2 py-1 bg-orange-500 text-white rounded hover:bg-orange-700'
-					onClick={handleReset}>
+					onClick={() => {
+						if (JSON.stringify(formData) !== JSON.stringify(defaultInputs))
+							setResetModal(true);
+					}}>
 					Reset Data
 				</button>
 				<button
@@ -217,8 +219,26 @@ const SimInputs = () => {
 					Data updated successfully
 				</div>
 			)}
+			{resetModal && (
+				<div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
+					<div className='bg-white p-4 rounded min-w-[280px] max-w-[500px]'>
+						<p className='text-lg'>Are you sure you want to reset the data?</p>
+						<div className='flex justify-end mt-4'>
+							<button
+								className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 mr-2'
+								onClick={handleReset}>
+								Yes
+							</button>
+							<button
+								className='px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400'
+								onClick={() => setResetModal(false)}>
+								No
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</>
 	);
 };
-
 export default SimInputs;
