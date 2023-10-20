@@ -2,16 +2,22 @@ import React, { useState, useEffect } from 'react';
 
 const Summary = () => {
 	const [summary, setSummary] = useState(
-		JSON.parse(localStorage.getItem('summary')) || ''
+		() => JSON.parse(localStorage.getItem('summary')) || ''
 	);
 	const [currentPage, setCurrentPage] = useState(1);
 
 	useEffect(() => {
-		setSummary(JSON.parse(localStorage.getItem('summary'))) || '';
-	}, [summary]);
+		const interval = setInterval(() => {
+			setSummary(() => JSON.parse(localStorage.getItem('summary'))) || '';
+		}, 500);
+
+		return () => {
+			clearInterval(interval);
+		};
+	}, []);
 
 	const rowsPerPage = 10;
-	const totalPages = Math.ceil(summary.expenseTable.length / rowsPerPage);
+	const totalPages = Math.ceil(summary.expenseTable?.length / rowsPerPage ?? 0);
 
 	const handleNextPage = () => {
 		setCurrentPage(prevPage => prevPage + 1);
