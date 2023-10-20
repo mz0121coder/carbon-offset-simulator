@@ -32,35 +32,35 @@ export const simulatorInputs = atom({
 	},
 });
 
-export const countryData = atom({
-	key: 'countryData',
-	default: {
-		'United States': 15.52,
-		'United Kingdom': 5.55,
-		Germany: 9.44,
-		'South Africa': 6.95,
-		India: 1.91,
-		China: 7.38,
-		Singapore: 8.56,
-		Australia: 17.1,
-	},
-});
+export const countryData = {
+	'United States': 15.52,
+	'United Kingdom': 5.55,
+	Germany: 9.44,
+	'South Africa': 6.95,
+	India: 1.91,
+	China: 7.38,
+	Singapore: 8.56,
+	Australia: 17.1,
+};
 
-export const countriesList = atom({
-	key: 'countriesList',
-	default: [
-		'United States',
-		'United Kingdom',
-		'Germany',
-		'South Africa',
-		'India',
-		'China',
-		'Singapore',
-		'Australia',
-	],
-});
+export const countriesList = [
+	'United States',
+	'United Kingdom',
+	'Germany',
+	'South Africa',
+	'India',
+	'China',
+	'Singapore',
+	'Australia',
+];
 
-export const updateData = atom({
-	key: 'updateData',
-	default: false,
-});
+export const inflationRates = {
+	'United States': 3.7,
+	'United Kingdom': 6.38,
+	Germany: 4.53,
+	'South Africa': 5.45,
+	India: 6.91,
+	China: 0.1,
+	Singapore: 4,
+	Australia: 7,
+};

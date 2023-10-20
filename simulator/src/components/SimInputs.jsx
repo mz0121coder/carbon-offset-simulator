@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { countryData, countriesList, updateData } from '../utils/atoms';
-import { simulatorInputs, defaultInputs } from '../utils/atoms';
+import {
+	countriesList,
+	defaultInputs,
+	countryData,
+	inflationRates,
+} from '../utils/atoms';
 
 const SimInputs = () => {
 	const [formData, setFormData] = useState(
 		() => JSON.parse(localStorage.getItem('formData')) || defaultInputs
 	);
-	const [countriesInfo, setCountriesInfo] = useRecoilState(countryData);
-	const [countries, setCountries] = useRecoilState(countriesList);
+
 	const [errorModal, setErrorModal] = useState(false);
 	const [showSnackbar, setShowSnackbar] = useState(false);
 
@@ -49,29 +51,27 @@ const SimInputs = () => {
 							setFormData({ ...formData, country: e.target.value })
 						}
 						className='border border-gray-300 rounded focus:outline-none w-[95%] h-9 py-[2px] px-1'>
-						{countries.map(country => (
+						{countriesList.map(country => (
 							<option key={country} value={country}>
 								{country}
 							</option>
 						))}
 					</select>
-				</div>
+				</div>{' '}
 				<div className='flex flex-col'>
-					<label htmlFor='annualConsumption' className='font-bold'>
-						Avg CO<sub>2</sub> / yr
+					<label htmlFor='carbonOffset' className='font-bold'>
+						Carbon Offset
 					</label>
 					<input
-						min={1}
-						step={0.01}
 						type='number'
-						id='annualConsumption'
-						value={Number(formData.annualConsumption)}
+						id='carbonOffset'
+						value={formData.carbonOffset}
 						onChange={e =>
-							setFormData({
-								...formData,
-								annualConsumption: Number(e.target.value),
-							})
+							setFormData({ ...formData, carbonOffset: Number(e.target.value) })
 						}
+						min={10}
+						max={50}
+						step={0.01}
 						className='  border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
 					/>
 				</div>
@@ -146,21 +146,25 @@ const SimInputs = () => {
 					/>
 				</div>
 				<div className='flex flex-col'>
-					<label htmlFor='timeToGrow' className='font-bold'>
-						Years to grow
+					<label htmlFor='annualConsumption' className='font-bold'>
+						Avg CO<sub>2</sub> / yr
 					</label>
 					<input
-						type='number'
-						id='timeToGrow'
-						value={formData.timeToGrow}
-						onChange={e =>
-							setFormData({ ...formData, timeToGrow: Number(e.target.value) })
-						}
 						min={1}
-						max={10}
-						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
+						step={0.01}
+						type='number'
+						id='annualConsumption'
+						value={Number(countryData[formData.country])}
+						onChange={e =>
+							setFormData({
+								...formData,
+								annualConsumption: Number(e.target.value),
+							})
+						}
+						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1 bg-gray-700 text-white'
+						readOnly
 					/>
-				</div>{' '}
+				</div>
 				<div className='flex flex-col'>
 					<label htmlFor='inflation' className='font-bold'>
 						Inflation Rate
@@ -168,14 +172,15 @@ const SimInputs = () => {
 					<input
 						type='number'
 						id='inflation'
-						value={formData.inflation}
+						value={Number(inflationRates[formData.country])}
 						onChange={e =>
 							setFormData({ ...formData, inflation: Number(e.target.value) })
 						}
 						min={0}
 						max={50}
 						step={0.01}
-						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
+						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1 bg-gray-700 text-white'
+						readOnly
 					/>
 				</div>
 			</div>
