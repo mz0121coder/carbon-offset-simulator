@@ -1,36 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { countryData, countriesList, updateData } from '../utils/atoms';
-import { simulatorInputs } from '../utils/atoms';
+import { simulatorInputs, defaultInputs } from '../utils/atoms';
 
 const SimInputs = () => {
-	const [formData, setFormData] = useRecoilState(simulatorInputs);
+	const [formData, setFormData] = useState(
+		() => JSON.parse(localStorage.getItem('formData')) || defaultInputs
+	);
 	const [countriesInfo, setCountriesInfo] = useRecoilState(countryData);
 	const [countries, setCountries] = useRecoilState(countriesList);
 	const [errorModal, setErrorModal] = useState(false);
+	const [showSnackbar, setShowSnackbar] = useState(false);
+
+	useEffect(() => {
+		localStorage.setItem('formData', JSON.stringify(formData));
+	}, [formData]);
 
 	const handleReset = () => {
-		setFormData({
-			country: 'United States',
-			annualConsumption: 15.52,
-			upfrontCost: 120,
-			annualCost: 12,
-			carbonOffset: 28.5,
-			treesPerMonth: 1,
-		});
+		setFormData(defaultInputs);
 	};
 
 	const handleSubmit = () => {
 		// Validate input fields
 		const inputs = Object.values(formData);
-		const isInvalid = inputs.filter(input => !/[0-9](\.[0-9]+)?$/.test(input));
-
+		const isInvalid = inputs.filter(input => !/[0-9]+(\.[0-9]+)?$/.test(input));
+		// all inputs except country should match digits
 		if (isInvalid.length > 1) {
 			setErrorModal(true);
 		} else {
-			// Perform any necessary data updates or API calls here
-			// Display a snackbar with the message 'Data Updated!'
-			alert('Data Updated!');
+			setShowSnackbar(true);
+			setTimeout(() => {
+				setShowSnackbar(false);
+			}, 3000);
 		}
 	};
 
@@ -57,49 +58,54 @@ const SimInputs = () => {
 				</div>
 				<div className='flex flex-col'>
 					<label htmlFor='annualConsumption' className='font-bold'>
-						Avg CO2/yr
+						Avg CO<sub>2</sub> / yr
 					</label>
 					<input
 						min={1}
-						step={0.1}
+						step={0.01}
 						type='number'
 						id='annualConsumption'
-						value={formData.annualConsumption}
+						value={Number(formData.annualConsumption)}
 						onChange={e =>
-							setFormData({ ...formData, annualConsumption: e.target.value })
+							setFormData({
+								...formData,
+								annualConsumption: Number(e.target.value),
+							})
 						}
 						className='  border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
 					/>
 				</div>
 				<div className='flex flex-col'>
 					<label htmlFor='upfrontCost' className='font-bold'>
-						Upfront Cost
+						Upfront Cost ($)
 					</label>
 					<input
 						type='number'
 						id='upfrontCost'
 						value={formData.upfrontCost}
 						onChange={e =>
-							setFormData({ ...formData, upfrontCost: e.target.value })
+							setFormData({ ...formData, upfrontCost: Number(e.target.value) })
 						}
 						min={100}
 						max={200}
+						step={0.01}
 						className='  border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
 					/>
 				</div>
 				<div className='flex flex-col'>
 					<label htmlFor='annualCost' className='font-bold'>
-						Annual Cost
+						Annual Cost ($)
 					</label>
 					<input
 						type='number'
 						id='annualCost'
 						value={formData.annualCost}
 						onChange={e =>
-							setFormData({ ...formData, annualCost: e.target.value })
+							setFormData({ ...formData, annualCost: Number(e.target.value) })
 						}
-						min={10}
-						max={30}
+						min={5}
+						max={50}
+						step={0.01}
 						className='  border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
 					/>
 				</div>
@@ -112,10 +118,11 @@ const SimInputs = () => {
 						id='carbonOffset'
 						value={formData.carbonOffset}
 						onChange={e =>
-							setFormData({ ...formData, carbonOffset: e.target.value })
+							setFormData({ ...formData, carbonOffset: Number(e.target.value) })
 						}
 						min={10}
 						max={50}
+						step={0.01}
 						className='  border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
 					/>
 				</div>
@@ -128,17 +135,53 @@ const SimInputs = () => {
 						id='treesPerMonth'
 						value={formData.treesPerMonth}
 						onChange={e =>
-							setFormData({ ...formData, treesPerMonth: e.target.value })
+							setFormData({
+								...formData,
+								treesPerMonth: Number(e.target.value),
+							})
+						}
+						min={1}
+						max={50}
+						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
+					/>
+				</div>
+				<div className='flex flex-col'>
+					<label htmlFor='timeToGrow' className='font-bold'>
+						Years to grow
+					</label>
+					<input
+						type='number'
+						id='timeToGrow'
+						value={formData.timeToGrow}
+						onChange={e =>
+							setFormData({ ...formData, timeToGrow: Number(e.target.value) })
 						}
 						min={1}
 						max={10}
+						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
+					/>
+				</div>{' '}
+				<div className='flex flex-col'>
+					<label htmlFor='inflation' className='font-bold'>
+						Inflation Rate
+					</label>
+					<input
+						type='number'
+						id='inflation'
+						value={formData.inflation}
+						onChange={e =>
+							setFormData({ ...formData, inflation: Number(e.target.value) })
+						}
+						min={0}
+						max={50}
+						step={0.01}
 						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
 					/>
 				</div>
 			</div>
 			<div className='flex justify-around [@media(max-width:400px)]:w-[95vw] min-w-[300px] max-w-[600px]'>
 				<button
-					className='px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-700'
+					className='px-2 py-1 bg-orange-500 text-white rounded hover:bg-orange-700'
 					onClick={handleReset}>
 					Reset Data
 				</button>
@@ -162,6 +205,11 @@ const SimInputs = () => {
 							</button>
 						</div>
 					</div>
+				</div>
+			)}
+			{showSnackbar && (
+				<div className='fixed bottom-0 left-0 right-0 bg-green-500 text-white p-4 text-center'>
+					Data updated successfully
 				</div>
 			)}
 		</>
