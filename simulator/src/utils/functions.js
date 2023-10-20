@@ -8,5 +8,8 @@ const sampleInputs = {
 	timeToGrow: 5,
 	inflation: 3.7,
 };
+/*
+take in inputs
 
+*/
 export const getSummary = inputs => {};
