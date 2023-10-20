@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Summary = () => {
 	const [summary, setSummary] = useState(
-		() => localStorage.getItem('summary') || ''
+		() => JSON.parse(localStorage.getItem('summary')) || ''
 	);
-	return !summary ? (
-		<div className='grid grid-cols-[repeat(2,_1fr)] grid-rows-[repeat(4,_1fr)] border border-black w-[90vw] h-[60vw] md:w-[45vw] md:h-[30vw]'>
-			<p>Please submit data to generate a summary.</p>
-		</div>
-	) : (
-		<div className='grid grid-cols-[repeat(2,_1fr)] grid-rows-[repeat(4,_1fr)] border border-black w-[90vw] h-[60vw] md:w-[45vw] md:h-[30vw]'>
-			<p>Summary will appear here</p>
+
+	return (
+		<div className='border border-black w-[90vw] h-auto md:w-[50vw] md:h-auto p-4'>
+			{!summary ? (
+				<p className='text-center text-lg'>
+					Please submit data to generate a summary.
+				</p>
+			) : (
+				<>
+					<h1 className='text-2xl font-bold mb-4'>Summary</h1>
+					<ul className='list-disc pl-6'>
+						{summary.summaryDescription.map((item, idx) => (
+							<li key={idx} className='text-base mb-2'>
+								{item}
+							</li>
+						))}
+					</ul>
+				</>
+			)}
 		</div>
 	);
 };

@@ -5,6 +5,7 @@ import {
 	countryData,
 	inflationRates,
 } from '../utils/atoms';
+import { getSummary } from '../utils/functions';
 
 const SimInputs = () => {
 	const [formData, setFormData] = useState(
@@ -30,6 +31,10 @@ const SimInputs = () => {
 		if (isInvalid.length > 1) {
 			setErrorModal(true);
 		} else {
+			// Use the getSummary function with formData as input
+			const summary = getSummary(formData);
+			localStorage.setItem('summary', JSON.stringify(summary));
+
 			setShowSnackbar(true);
 			setTimeout(() => {
 				setShowSnackbar(false);
