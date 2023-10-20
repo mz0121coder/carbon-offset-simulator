@@ -26,11 +26,11 @@ const SimInputs = () => {
 
 	useEffect(() => {
 		localStorage.setItem('summary', JSON.stringify(summary));
-	});
+	}, [summary]);
 
 	useEffect(() => {
 		localStorage.setItem('formData', JSON.stringify(formData));
-	});
+	}, [formData]);
 
 	useEffect(() => {
 		const newForm = { ...formData };

@@ -8,7 +8,7 @@ const Summary = () => {
 
 	useEffect(() => {
 		setSummary(JSON.parse(localStorage.getItem('summary'))) || '';
-	});
+	}, [summary]);
 
 	const rowsPerPage = 10;
 	const totalPages = Math.ceil(summary.expenseTable.length / rowsPerPage);
