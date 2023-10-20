@@ -15,6 +15,11 @@ const SimInputs = () => {
 	const [resetModal, setResetModal] = useState(false);
 	const [showSnackbar, setShowSnackbar] = useState(false);
 
+	const [annualConsumption, setAnnualConsumption] = useState(
+		defaultInputs.annualConsumption
+	);
+	const [inflation, setInflation] = useState(defaultInputs.inflation);
+
 	useEffect(() => {
 		localStorage.setItem('formData', JSON.stringify(formData));
 	}, [formData]);
@@ -32,7 +37,12 @@ const SimInputs = () => {
 			setErrorModal(true);
 		} else {
 			// Use the getSummary function with formData as input
+			const newForm = { ...formData };
+			newForm.annualConsumption = countryData[formData.country];
+			newForm.inflation = inflationRates[formData.country];
+			setFormData(newForm);
 			const summary = getSummary(formData);
+			console.log({ summary });
 			localStorage.setItem('summary', JSON.stringify(summary));
 
 			setShowSnackbar(true);
@@ -51,9 +61,11 @@ const SimInputs = () => {
 					<select
 						id='country'
 						value={formData.country}
-						onChange={e =>
-							setFormData({ ...formData, country: e.target.value })
-						}
+						onChange={e => {
+							const newForm = { ...formData };
+							newForm.country = e.target.value;
+							setFormData(newForm);
+						}}
 						className='border border-gray-300 rounded focus:outline-none w-[95%] h-9 py-[2px] px-1'>
 						{countriesList.map(country => (
 							<option key={country} value={country}>
@@ -61,7 +73,7 @@ const SimInputs = () => {
 							</option>
 						))}
 					</select>
-				</div>{' '}
+				</div>
 				<div className='flex flex-col'>
 					<label htmlFor='carbonOffset' className='font-bold'>
 						Carbon Offset
@@ -70,9 +82,11 @@ const SimInputs = () => {
 						type='number'
 						id='carbonOffset'
 						value={formData.carbonOffset}
-						onChange={e =>
-							setFormData({ ...formData, carbonOffset: Number(e.target.value) })
-						}
+						onChange={e => {
+							const newForm = { ...formData };
+							newForm.carbonOffset = Number(e.target.value);
+							setFormData(newForm);
+						}}
 						min={10}
 						max={50}
 						step={0.01}
@@ -87,9 +101,11 @@ const SimInputs = () => {
 						type='number'
 						id='upfrontCost'
 						value={formData.upfrontCost}
-						onChange={e =>
-							setFormData({ ...formData, upfrontCost: Number(e.target.value) })
-						}
+						onChange={e => {
+							const newForm = { ...formData };
+							newForm.upfrontCost = Number(e.target.value);
+							setFormData(newForm);
+						}}
 						min={100}
 						max={200}
 						step={0.01}
@@ -104,9 +120,11 @@ const SimInputs = () => {
 						type='number'
 						id='annualCost'
 						value={formData.annualCost}
-						onChange={e =>
-							setFormData({ ...formData, annualCost: Number(e.target.value) })
-						}
+						onChange={e => {
+							const newForm = { ...formData };
+							newForm.annualCost = Number(e.target.value);
+							setFormData(newForm);
+						}}
 						min={5}
 						max={50}
 						step={0.01}
@@ -121,9 +139,11 @@ const SimInputs = () => {
 						type='number'
 						id='timeToGrow'
 						value={formData.timeToGrow}
-						onChange={e =>
-							setFormData({ ...formData, timeToGrow: Number(e.target.value) })
-						}
+						onChange={e => {
+							const newForm = { ...formData };
+							newForm.timeToGrow = Number(e.target.value);
+							setFormData(newForm);
+						}}
 						min={1}
 						max={20}
 						step={1}
@@ -138,12 +158,11 @@ const SimInputs = () => {
 						type='number'
 						id='treesPerMonth'
 						value={formData.treesPerMonth}
-						onChange={e =>
-							setFormData({
-								...formData,
-								treesPerMonth: Number(e.target.value),
-							})
-						}
+						onChange={e => {
+							const newForm = { ...formData };
+							newForm.treesPerMonth = Number(e.target.value);
+							setFormData(newForm);
+						}}
 						min={1}
 						max={50}
 						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
@@ -159,12 +178,11 @@ const SimInputs = () => {
 						type='number'
 						id='annualConsumption'
 						value={Number(countryData[formData.country])}
-						onChange={e =>
-							setFormData({
-								...formData,
-								annualConsumption: Number(e.target.value),
-							})
-						}
+						onChange={e => {
+							const newForm = { ...formData };
+							newForm.annualConsumption = Number(e.target.value);
+							setFormData(newForm);
+						}}
 						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1 bg-gray-700 text-white'
 						readOnly
 					/>

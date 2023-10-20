@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const Summary = () => {
 	const [summary, setSummary] = useState(
-		() => JSON.parse(localStorage.getItem('summary')) || ''
+		JSON.parse(localStorage.getItem('summary')) || ''
 	);
 
 	return (
@@ -16,7 +16,7 @@ const Summary = () => {
 					<h1 className='text-2xl font-bold mb-4'>Summary</h1>
 					<ul className='list-disc pl-6'>
 						{summary.summaryDescription.map((item, idx) => (
-							<li key={idx} className='text-base mb-2'>
+							<li key={item} className='text-base mb-2'>
 								{item}
 							</li>
 						))}

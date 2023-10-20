@@ -119,4 +119,4 @@ const sampleInputs = {
 	inflation: 3.7,
 };
 
-console.log(getSummary(sampleInputs));
+// console.log(getSummary(sampleInputs));
