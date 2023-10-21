@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import CarbonOffsets from './CarbonOffsets';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
+
+const CarbonOffsets = React.lazy(() => import('./CarbonOffsets'));
 
 const Summary = () => {
 	const [summary, setSummary] = useState(
@@ -116,10 +117,12 @@ const Summary = () => {
 					</>
 				)}
 			</div>
-			<CarbonOffsets
-				summary={summary}
-				monthlyEmissions={summary.monthlyEmissions}
-			/>
+			<Suspense fallback={<div>Loading...</div>}>
+				<CarbonOffsets
+					summary={summary}
+					monthlyEmissions={summary.monthlyEmissions}
+				/>
+			</Suspense>
 		</>
 	);
 };

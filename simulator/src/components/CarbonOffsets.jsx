@@ -17,10 +17,12 @@ const CarbonOffsets = ({ summary, monthlyEmissions }) => {
 		monthlyEmissions: monthlyEmissions,
 	}));
 
+	const colorScheme = ['#FF6384', '#36A2EB']; // Add your custom color scheme here
+
 	return (
-		<div className='w-[100vw] h-auto md:w-[50vw]'>
+		<div className='w-[100vw] md:w-[50vw]'>
 			<h2 className='text-center font-bold'>Carbon Offsets</h2>
-			<ResponsiveContainer width='100%' height='100%'>
+			<ResponsiveContainer width='100%' height={350}>
 				<LineChart
 					data={data}
 					margin={{ top: 20, right: 30, left: 20, bottom: 10 }}>
@@ -32,13 +34,13 @@ const CarbonOffsets = ({ summary, monthlyEmissions }) => {
 					<Line
 						type='monotone'
 						dataKey='offset'
-						stroke='#8884d8'
+						stroke={colorScheme[0]}
 						name='Monthly Offset'
 					/>
 					<Line
 						type='monotone'
 						dataKey='monthlyEmissions'
-						stroke='#82ca9d'
+						stroke={colorScheme[1]}
 						name='Monthly Emissions'
 					/>
 				</LineChart>
