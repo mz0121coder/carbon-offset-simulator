@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import logo from './assets/mz-tech-logo.png';
 import SimInputs from './components/SimInputs';
 import Summary from './components/Summary';
-// import CarbonOffsets from './components/CarbonOffsets';
-// import Expenditure from './components/Expenditure';
-import { useRecoilState } from 'recoil';
-import { loggedInState } from './utils/atoms.js';
 
 const App = () => {
-	const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
+	const [loggedIn, setLoggedIn] = useState(
+		() => JSON.parse(localStorage.getItem('loggedIn')) || false
+	);
+
+	useEffect(() => {
+		localStorage.setItem('loggedIn', JSON.stringify(loggedIn));
+	}, [loggedIn]);
+
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -20,7 +23,7 @@ const App = () => {
 						Carbon Offset Simulator
 					</h1>
 					<p className='text-center text-base md:text-lg lg:text-xl xl:text-2xl'>
-						Login or sign up to get started
+						Click below to get started
 					</p>
 					<button
 						className='mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700'
@@ -64,8 +67,6 @@ const App = () => {
 					)}
 					<SimInputs />
 					<Summary />
-					{/* <CarbonOffsets /> */}
-					{/* <Expenditure /> */}
 				</>
 			)}
 		</div>
