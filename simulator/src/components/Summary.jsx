@@ -17,7 +17,7 @@ const Summary = () => {
 	}, []);
 
 	const rowsPerPage = 10;
-	const totalPages = Math.ceil(summary.expenseTable?.length / rowsPerPage ?? 0);
+	const totalPages = Math.ceil(summary.expenseTable?.length / rowsPerPage ?? 1);
 
 	const handleNextPage = () => {
 		setCurrentPage(prevPage => prevPage + 1);
@@ -28,7 +28,7 @@ const Summary = () => {
 	};
 
 	return (
-		<div className='border border-black w-[90vw] h-auto md:w-[50vw] md:h-auto p-4'>
+		<div className='w-[90vw] h-auto md:w-[50vw] md:h-auto p-4 bg-gray-100 rounded'>
 			{!summary ? (
 				<p className='text-center text-lg'>
 					Please submit data to generate a summary.
@@ -43,20 +43,20 @@ const Summary = () => {
 							</li>
 						))}
 					</ul>
-					<table className='mt-8 w-full ml-auto mr-auto sm:w-auto'>
+					<table className='mt-8 w-full ml-auto mr-auto sm:w-auto bg-white rounded'>
 						<thead>
 							<tr>
-								<th className='py-2 px-4 border border-gray-400 text-left'>
+								<th className='py-2 px-4 border border-gray-400 text-left bg-gray-200'>
 									Month
 								</th>
-								<th className='py-2 px-4 border border-gray-400 text-left'>
+								<th className='py-2 px-4 border border-gray-400 text-left bg-gray-200'>
 									Upkeep
 								</th>
-								<th className='py-2 px-4 border border-gray-400 text-left'>
+								<th className='py-2 px-4 border border-gray-400 text-left bg-gray-200'>
 									Purchase
 								</th>
 								<th
-									className={`py-2 px-4 border border-gray-400 text-left ${
+									className={`py-2 px-4 border border-gray-400 text-left bg-gray-200 ${
 										window.innerWidth < 576 ? 'hidden' : ''
 									}`}>
 									Total

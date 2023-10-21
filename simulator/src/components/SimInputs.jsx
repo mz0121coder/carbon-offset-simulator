@@ -8,10 +8,22 @@ import {
 import { getSummary } from '../utils/functions';
 
 const SimInputs = () => {
+	const offsetInputs = Array.from({ length: 11 }, (_, index) => index + 25);
+	const upfrontCostInputs = Array.from(
+		{ length: 11 },
+		(_, index) => (index + 1) * 5 + 95
+	);
+	const annualCostInputs = Array.from({ length: 11 }, (_, index) => index + 10);
+	const yearsToGrowInputs = Array.from({ length: 10 }, (_, index) => index + 1);
+	const treesPerMonthInputs = Array.from(
+		{ length: 10 },
+		(_, index) => index + 1
+	);
+
 	const [formData, setFormData] = useState(
 		() => JSON.parse(localStorage.getItem('formData')) || defaultInputs
 	);
-	const [errorModal, setErrorModal] = useState(false);
+	// const [errorModal, setErrorModal] = useState(false);
 	const [resetModal, setResetModal] = useState(false);
 	const [showSnackbar, setShowSnackbar] = useState(false);
 
@@ -38,27 +50,33 @@ const SimInputs = () => {
 
 	useEffect(calculateSummary, [formData]);
 
+	const handleInputChange = (inputName, value) => {
+		const newForm = { ...formData };
+		newForm[inputName] = value;
+		setFormData(newForm);
+	};
+
 	const handleReset = () => {
 		setFormData(defaultInputs);
 		setResetModal(false);
 	};
 	const handleSubmit = () => {
-		// Validate input fields
-		const inputs = Object.values(formData);
-		const isInvalid = inputs.filter(input => !/[0-9]+(\.[0-9]+)?$/.test(input));
-		// all inputs except country should match digits
-		if (isInvalid.length > 1) {
-			setErrorModal(true);
-		} else {
-			const newSummary = getSummary(formData);
-			console.log({ newSummary });
-			setSummary(newSummary);
+		// // Validate input fields
+		// const inputs = Object.values(formData);
+		// const isInvalid = inputs.filter(input => !/[0-9]+(\.[0-9]+)?$/.test(input));
+		// // all inputs except country should match digits
+		// if (isInvalid.length > 1) {
+		// 	setErrorModal(true);
+		// } else {
+		const newSummary = getSummary(formData);
+		console.log({ newSummary });
+		setSummary(newSummary);
 
-			setShowSnackbar(true);
-			setTimeout(() => {
-				setShowSnackbar(false);
-			}, 3000);
-		}
+		setShowSnackbar(true);
+		setTimeout(() => {
+			setShowSnackbar(false);
+		}, 3000);
+		// }
 	};
 	return (
 		<>
@@ -70,144 +88,134 @@ const SimInputs = () => {
 					<select
 						id='country'
 						value={formData.country}
-						onChange={e => {
-							const newForm = { ...formData };
-							newForm.country = e.target.value;
-							setFormData(newForm);
-						}}
-						className='border border-gray-300 rounded focus:outline-none w-[95%] h-9 py-[2px] px-1'>
-						{countriesList.map(country => (
-							<option key={country} value={country}>
+						onChange={e => handleInputChange('country', e.target.value)}
+						className='border border-gray-300 rounded focus:outline-none w-[95%] h-9 py-[2px] px-1 appearance-none'>
+						{countriesList.map((country, idx) => (
+							<option key={idx} value={country}>
 								{country}
 							</option>
 						))}
 					</select>
 				</div>
+				{/* offset per year - kg */}
 				<div className='flex flex-col'>
 					<label htmlFor='carbonOffset' className='font-bold'>
 						Carbon Offset
 					</label>
-					<input
-						type='number'
+					<select
 						id='carbonOffset'
 						value={formData.carbonOffset}
-						onChange={e => {
-							const newForm = { ...formData };
-							newForm.carbonOffset = Number(e.target.value);
-							setFormData(newForm);
-						}}
-						min={10}
-						max={50}
-						step={0.01}
-						className='  border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
-					/>
+						onChange={e =>
+							handleInputChange('carbonOffset', Number(e.target.value))
+						}
+						className='border border-gray-300 rounded focus:outline-none w-[95%] h-9 py-[2px] px-1 appearance-none'>
+						{offsetInputs.map((offset, idx) => (
+							<option key={idx} value={offset}>
+								{offset}
+							</option>
+						))}
+					</select>
 				</div>
+				{/* upfront cost of planting a tree */}
 				<div className='flex flex-col'>
 					<label htmlFor='upfrontCost' className='font-bold'>
 						Upfront Cost ($)
 					</label>
-					<input
-						type='number'
+					<select
 						id='upfrontCost'
 						value={formData.upfrontCost}
-						onChange={e => {
-							const newForm = { ...formData };
-							newForm.upfrontCost = Number(e.target.value);
-							setFormData(newForm);
-						}}
-						min={100}
-						max={200}
-						step={0.01}
-						className='  border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
-					/>
+						onChange={e =>
+							handleInputChange('upfrontCost', Number(e.target.value))
+						}
+						className='border border-gray-300 rounded focus:outline-none w-[95%] h-9 py-[2px] px-1 appearance-none'>
+						{upfrontCostInputs.map((upfrontCost, idx) => (
+							<option key={idx} value={upfrontCost}>
+								{upfrontCost}
+							</option>
+						))}
+					</select>
 				</div>
+				{/* annual cost of maintaining a tree */}
 				<div className='flex flex-col'>
 					<label htmlFor='annualCost' className='font-bold'>
 						Annual Cost ($)
 					</label>
-					<input
-						type='number'
+					<select
 						id='annualCost'
 						value={formData.annualCost}
-						onChange={e => {
-							const newForm = { ...formData };
-							newForm.annualCost = Number(e.target.value);
-							setFormData(newForm);
-						}}
-						min={5}
-						max={50}
-						step={0.01}
-						className='  border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
-					/>
+						onChange={e =>
+							handleInputChange('annualCost', Number(e.target.value))
+						}
+						className='border border-gray-300 rounded focus:outline-none w-[95%] h-9 py-[2px] px-1 appearance-none'>
+						{annualCostInputs.map((annualCost, idx) => (
+							<option key={idx} value={annualCost}>
+								{annualCost}
+							</option>
+						))}
+					</select>
 				</div>
+				{/* years to fully grow */}
 				<div className='flex flex-col'>
 					<label htmlFor='timeToGrow' className='font-bold'>
 						Years to grow
 					</label>
-					<input
-						type='number'
+					<select
 						id='timeToGrow'
 						value={formData.timeToGrow}
-						onChange={e => {
-							const newForm = { ...formData };
-							newForm.timeToGrow = Number(e.target.value);
-							setFormData(newForm);
-						}}
-						min={1}
-						step={1}
-						className='  border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
-					/>
+						onChange={e =>
+							handleInputChange('timeToGrow', Number(e.target.value))
+						}
+						className='border border-gray-300 rounded focus:outline-none w-[95%] h-9 py-[2px] px-1 appearance-none'>
+						{yearsToGrowInputs.map((yearsToGrow, idx) => (
+							<option key={idx} value={yearsToGrow}>
+								{yearsToGrow}
+							</option>
+						))}
+					</select>
 				</div>
+				{/* trees per month */}
 				<div className='flex flex-col'>
 					<label htmlFor='treesPerMonth' className='font-bold'>
 						Trees per Month
 					</label>
-					<input
-						type='number'
+					<select
 						id='treesPerMonth'
 						value={formData.treesPerMonth}
-						onChange={e => {
-							const newForm = { ...formData };
-							newForm.treesPerMonth = Number(e.target.value);
-							setFormData(newForm);
-						}}
-						min={0}
-						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
-					/>
+						onChange={e =>
+							handleInputChange('treesPerMonth', Number(e.target.value))
+						}
+						className='border border-gray-300 rounded focus:outline-none w-[95%] h-9 py-[2px] px-1 appearance-none'>
+						{treesPerMonthInputs.map((treesPerMonth, idx) => (
+							<option key={idx} value={treesPerMonth}>
+								{treesPerMonth}
+							</option>
+						))}
+					</select>
 				</div>
+				{/* average CO2 consumption / yr - metric tons */}
 				<div className='flex flex-col'>
 					<label htmlFor='annualConsumption' className='font-bold'>
 						Avg CO2 / yr
 					</label>
 					<input
 						type='number'
+						inputMode='numeric'
 						id='annualConsumption'
 						value={Number(countryData[formData.country])}
-						// onChange={e => {
-						// 	const newForm = { ...formData };
-						// 	newForm.annualConsumption = Number(e.target.value);
-						// 	setFormData(newForm);
-						// }}
-						// min={1}
-						// step={0.01}
 						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1 bg-gray-700 text-white'
 						readOnly
 					/>
 				</div>
+				{/* inflation updated dynamically */}
 				<div className='flex flex-col'>
 					<label htmlFor='inflation' className='font-bold'>
 						Inflation Rate
 					</label>
 					<input
 						type='number'
+						inputMode='numeric'
 						id='inflation'
 						value={Number(inflationRates[formData.country])}
-						// onChange={e =>
-						// 	setFormData({ ...formData, inflation: Number(e.target.value) })
-						// }
-						// min={0}
-						// max={50}
-						step={0.01}
 						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1 bg-gray-700 text-white'
 						readOnly
 					/>
@@ -228,7 +236,7 @@ const SimInputs = () => {
 					Submit Data
 				</button>
 			</div>
-			{errorModal && (
+			{/* {errorModal && (
 				<div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
 					<div className='bg-white p-4 rounded min-w-[280px] max-w-[500px]'>
 						<p className='text-lg'>
@@ -243,7 +251,7 @@ const SimInputs = () => {
 						</div>
 					</div>
 				</div>
-			)}
+			)} */}
 			{showSnackbar && (
 				<div className='fixed bottom-0 left-0 right-0 bg-green-500 text-white p-4 text-center'>
 					Data updated successfully
