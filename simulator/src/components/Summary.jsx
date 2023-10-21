@@ -1,6 +1,7 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 
 const CarbonOffsets = React.lazy(() => import('./CarbonOffsets'));
+const Expenditure = React.lazy(() => import('./Expenditure'));
 
 const Summary = () => {
 	const [summary, setSummary] = useState(
@@ -9,6 +10,7 @@ const Summary = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 
 	useEffect(() => {
+		console.log({ summary });
 		const interval = setInterval(() => {
 			setSummary(() => JSON.parse(localStorage.getItem('summary'))) || '';
 		}, 500);
@@ -122,6 +124,9 @@ const Summary = () => {
 					summary={summary}
 					monthlyEmissions={summary.monthlyEmissions}
 				/>
+			</Suspense>
+			<Suspense fallback={<div>Loading...</div>}>
+				<Expenditure summary={summary} />
 			</Suspense>
 		</>
 	);

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import logo from './assets/mz-tech-logo.png';
 import SimInputs from './components/SimInputs';
 import Summary from './components/Summary';
-import CarbonOffsets from './components/CarbonOffsets';
-import Expenditure from './components/Expenditure';
+// import CarbonOffsets from './components/CarbonOffsets';
+// import Expenditure from './components/Expenditure';
 import { useRecoilState } from 'recoil';
 import { loggedInState } from './utils/atoms.js';
 
@@ -65,7 +65,7 @@ const App = () => {
 					<SimInputs />
 					<Summary />
 					{/* <CarbonOffsets /> */}
-					<Expenditure />
+					{/* <Expenditure /> */}
 				</>
 			)}
 		</div>
