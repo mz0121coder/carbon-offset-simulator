@@ -64,7 +64,7 @@ const App = () => {
 					)}
 					<SimInputs />
 					<Summary />
-					<CarbonOffsets />
+					{/* <CarbonOffsets /> */}
 					<Expenditure />
 				</>
 			)}

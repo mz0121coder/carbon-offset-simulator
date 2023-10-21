@@ -100,6 +100,7 @@ export const getSummary = inputs => {
 			];
 
 			return {
+				monthlyEmissions: Number(monthlyEmissions.toFixed(2)),
 				summaryTable: summaryTable,
 				expenseTable: expenseTable,
 				summaryDescription: summaryDescription,
