@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
 	countriesList,
 	defaultInputs,
@@ -21,23 +21,22 @@ const SimInputs = () => {
 
 	useEffect(() => {
 		localStorage.setItem('summary', JSON.stringify(summary));
-	}, [summary]);
-
-	useEffect(() => {
 		localStorage.setItem('formData', JSON.stringify(formData));
-	}, [formData]);
+	}, [summary, formData]);
 
 	useEffect(() => {
 		const newForm = { ...formData };
-		newForm.annualConsumption = countryData[formData.country];
-		newForm.inflation = inflationRates[formData.country];
+		newForm.annualConsumption = countryData[newForm.country];
+		newForm.inflation = inflationRates[newForm.country];
 		setFormData(newForm);
 	}, [formData.country]);
 
-	useEffect(() => {
+	const calculateSummary = useCallback(() => {
 		const newSummary = getSummary(formData);
 		setSummary(newSummary);
-	}, [formData]);
+	}, [formData, getSummary]);
+
+	useEffect(calculateSummary, [formData]);
 
 	const handleReset = () => {
 		setFormData(defaultInputs);
@@ -51,11 +50,6 @@ const SimInputs = () => {
 		if (isInvalid.length > 1) {
 			setErrorModal(true);
 		} else {
-			// // Use the getSummary function with formData as input
-			// const newForm = { ...formData };
-			// newForm.annualConsumption = countryData[formData.country];
-			// newForm.inflation = inflationRates[formData.country];
-			// setFormData(newForm);
 			const newSummary = getSummary(formData);
 			console.log({ newSummary });
 			setSummary(newSummary);
