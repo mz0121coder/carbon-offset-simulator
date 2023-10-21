@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 
 const Expenditure = ({ summary }) => {
-	const data = summary.expenseTable.map(item => ({
+	const data = summary?.expenseTable?.map(item => ({
 		month: item.month.slice(0, 3) + '-' + item.month.slice(-2),
 		totalCosts: item.totalCosts,
 		purchaseCosts: item.purchaseCosts,

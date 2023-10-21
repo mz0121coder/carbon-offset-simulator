@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 
 const CarbonOffsets = ({ summary, monthlyEmissions }) => {
-	const data = summary.summaryTable.map(item => ({
+	const data = summary?.summaryTable?.map(item => ({
 		month: item.month.slice(0, 3) + '-' + item.month.slice(-2),
 		offset: item.offset,
 		monthlyEmissions: monthlyEmissions,
