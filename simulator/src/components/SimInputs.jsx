@@ -15,11 +15,6 @@ const SimInputs = () => {
 	const [resetModal, setResetModal] = useState(false);
 	const [showSnackbar, setShowSnackbar] = useState(false);
 
-	// const [annualConsumption, setAnnualConsumption] = useState(
-	// 	defaultInputs.annualConsumption
-	// );
-	// const [inflation, setInflation] = useState(defaultInputs.inflation);
-
 	const [summary, setSummary] = useState(
 		() => JSON.parse(localStorage.getItem('summary')) || ''
 	);
@@ -165,7 +160,6 @@ const SimInputs = () => {
 							setFormData(newForm);
 						}}
 						min={1}
-						max={20}
 						step={1}
 						className='  border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
 					/>
@@ -183,8 +177,7 @@ const SimInputs = () => {
 							newForm.treesPerMonth = Number(e.target.value);
 							setFormData(newForm);
 						}}
-						min={1}
-						max={50}
+						min={0}
 						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1'
 					/>
 				</div>
@@ -193,16 +186,16 @@ const SimInputs = () => {
 						Avg CO2 / yr
 					</label>
 					<input
-						min={1}
-						step={0.01}
 						type='number'
 						id='annualConsumption'
 						value={Number(countryData[formData.country])}
-						onChange={e => {
-							const newForm = { ...formData };
-							newForm.annualConsumption = Number(e.target.value);
-							setFormData(newForm);
-						}}
+						// onChange={e => {
+						// 	const newForm = { ...formData };
+						// 	newForm.annualConsumption = Number(e.target.value);
+						// 	setFormData(newForm);
+						// }}
+						// min={1}
+						// step={0.01}
 						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1 bg-gray-700 text-white'
 						readOnly
 					/>
@@ -215,11 +208,11 @@ const SimInputs = () => {
 						type='number'
 						id='inflation'
 						value={Number(inflationRates[formData.country])}
-						onChange={e =>
-							setFormData({ ...formData, inflation: Number(e.target.value) })
-						}
-						min={0}
-						max={50}
+						// onChange={e =>
+						// 	setFormData({ ...formData, inflation: Number(e.target.value) })
+						// }
+						// min={0}
+						// max={50}
 						step={0.01}
 						className='border border-gray-300 rounded focus:outline-none h-9 w-[95%] py-[2px] px-1 bg-gray-700 text-white'
 						readOnly
