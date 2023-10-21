@@ -15,7 +15,7 @@ export const defaultInputs = {
 
 export const loggedInState = atom({
 	key: 'loggedInState',
-	default: false,
+	default: true,
 });
 
 export const simulatorInputs = atom({

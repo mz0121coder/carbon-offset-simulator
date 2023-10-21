@@ -43,7 +43,7 @@ const Summary = () => {
 							</li>
 						))}
 					</ul>
-					<table className='mt-8 w-full'>
+					<table className='mt-8 w-full ml-auto mr-auto sm:w-auto'>
 						<thead>
 							<tr>
 								<th className='py-2 px-4 border border-gray-400 text-left'>
@@ -55,7 +55,10 @@ const Summary = () => {
 								<th className='py-2 px-4 border border-gray-400 text-left'>
 									Purchase
 								</th>
-								<th className='py-2 px-4 border border-gray-400 text-left'>
+								<th
+									className={`py-2 px-4 border border-gray-400 text-left ${
+										window.innerWidth < 576 ? 'hidden' : ''
+									}`}>
 									Total
 								</th>
 							</tr>
@@ -68,17 +71,20 @@ const Summary = () => {
 								)
 								.map((item, idx) => (
 									<tr key={idx}>
-										<td className='py-2 px-4 border border-gray-400'>
+										<td className='py-2 px-2 sm:px-4 border border-gray-400'>
 											{item.month.slice(0, 3) + '-' + item.month.slice(-2)}
 										</td>
-										<td className='py-2 px-4 border border-gray-400'>
-											${item.totalMaintenanceCosts}
+										<td className='py-2 px-2 sm:px-4 border border-gray-400'>
+											${item.totalMaintenanceCosts.toFixed(2)}
 										</td>
-										<td className='py-2 px-4 border border-gray-400'>
-											${item.purchaseCosts + '.00'}
+										<td className='py-2 px-2 sm:px-4 border border-gray-400'>
+											${item.purchaseCosts.toFixed(2)}
 										</td>
-										<td className='py-2 px-4 border border-gray-400'>
-											${item.totalCosts}
+										<td
+											className={`py-2 px-2 sm:px-4 border border-gray-400 ${
+												window.innerWidth < 576 ? 'hidden' : ''
+											}`}>
+											${item.totalCosts.toFixed(2)}
 										</td>
 									</tr>
 								))}
