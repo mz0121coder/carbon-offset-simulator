@@ -124,10 +124,9 @@ const Summary = () => {
 					summary={summary}
 					monthlyEmissions={summary.monthlyEmissions}
 				/>
-			</Suspense>
-			<Suspense fallback={<div>Loading...</div>}>
 				<Expenditure summary={summary} />
 			</Suspense>
+			<Suspense fallback={<div>Loading...</div>}></Suspense>
 		</>
 	);
 };

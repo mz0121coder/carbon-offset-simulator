@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
 	AreaChart,
 	Area,
@@ -11,18 +11,31 @@ import {
 } from 'recharts';
 
 const Expenditure = ({ summary }) => {
-	const data = summary.expenseTable;
-	useEffect(() => {
-		console.log(data);
-	}, []);
+	const data = summary.expenseTable.map(item => ({
+		month: item.month.slice(0, 3) + '-' + item.month.slice(-2),
+		totalCosts: item.totalCosts,
+		purchaseCosts: item.purchaseCosts,
+		totalMaintenanceCosts: item.totalMaintenanceCosts,
+	}));
+
+	const yAxisTickFormatter = value => {
+		if (window.innerWidth < 500) {
+			if (value >= 1000) {
+				return `${(value / 1000).toFixed(0)}k`;
+			}
+			return value;
+		}
+		return value;
+	};
+
 	return (
-		<div className='w-[100vw] md:w-[50vw] text-center'>
+		<div className='w-[95vw] md:w-[50vw] text-center'>
 			<h2 className='font-bold text-lg'>Total Expenses</h2>
 			<ResponsiveContainer width='100%' height={350}>
 				<AreaChart data={data}>
 					<CartesianGrid strokeDasharray='3 3' />
 					<XAxis dataKey='month' />
-					<YAxis />
+					<YAxis tickFormatter={yAxisTickFormatter} />
 					<Tooltip />
 					<Legend />
 					<Area
