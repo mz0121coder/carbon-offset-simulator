@@ -8,6 +8,7 @@ import {
 import { getSummary } from '../utils/functions';
 
 const SimInputs = () => {
+	// Arrays for select options
 	const offsetInputs = Array.from({ length: 11 }, (_, index) => index + 25);
 	const upfrontCostInputs = Array.from(
 		{ length: 11 },
@@ -20,22 +21,23 @@ const SimInputs = () => {
 		(_, index) => index + 1
 	);
 
+	// State variables
 	const [formData, setFormData] = useState(
 		() => JSON.parse(localStorage.getItem('formData')) || defaultInputs
 	);
-	// const [errorModal, setErrorModal] = useState(false);
 	const [resetModal, setResetModal] = useState(false);
 	const [showSnackbar, setShowSnackbar] = useState(false);
-
 	const [summary, setSummary] = useState(
 		() => JSON.parse(localStorage.getItem('summary')) || ''
 	);
 
+	// Save summary and form data to local storage
 	useEffect(() => {
 		localStorage.setItem('summary', JSON.stringify(summary));
 		localStorage.setItem('formData', JSON.stringify(formData));
 	}, [summary, formData]);
 
+	// Update form data when country changes
 	useEffect(() => {
 		const newForm = { ...formData };
 		newForm.annualConsumption = countryData[newForm.country];
@@ -43,6 +45,7 @@ const SimInputs = () => {
 		setFormData(newForm);
 	}, [formData.country]);
 
+	// Calculate summary
 	const calculateSummary = useCallback(() => {
 		const newSummary = getSummary(formData);
 		setSummary(newSummary);
@@ -50,34 +53,30 @@ const SimInputs = () => {
 
 	useEffect(calculateSummary, [formData]);
 
+	// Handle input change
 	const handleInputChange = (inputName, value) => {
 		const newForm = { ...formData };
 		newForm[inputName] = value;
 		setFormData(newForm);
 	};
 
+	// Reset form data
 	const handleReset = () => {
 		setFormData(defaultInputs);
 		setResetModal(false);
 	};
+
+	// Submit form data
 	const handleSubmit = () => {
-		// // Validate input fields
-		// const inputs = Object.values(formData);
-		// const isInvalid = inputs.filter(input => !/[0-9]+(\.[0-9]+)?$/.test(input));
-		// // all inputs except country should match digits
-		// if (isInvalid.length > 1) {
-		// 	setErrorModal(true);
-		// } else {
 		const newSummary = getSummary(formData);
 		console.log({ newSummary });
 		setSummary(newSummary);
-
 		setShowSnackbar(true);
 		setTimeout(() => {
 			setShowSnackbar(false);
 		}, 3000);
-		// }
 	};
+
 	return (
 		<>
 			<div className='grid grid-cols-[repeat(2,_1fr)] grid-rows-[repeat(3,_1fr)] [@media(max-width:400px)]:w-[95vw] min-w-[300px] max-w-[600px] bg-gray-100 rounded p-4'>
@@ -236,22 +235,7 @@ const SimInputs = () => {
 					Submit Data
 				</button>
 			</div>
-			{/* {errorModal && (
-				<div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
-					<div className='bg-white p-4 rounded min-w-[280px] max-w-[500px]'>
-						<p className='text-lg'>
-							Each input except country must be a number
-						</p>
-						<div className='flex justify-end mt-4'>
-							<button
-								className='px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400'
-								onClick={() => setErrorModal(false)}>
-								Close
-							</button>
-						</div>
-					</div>
-				</div>
-			)} */}
+			{/* success or reset modals */}
 			{showSnackbar && (
 				<div className='fixed bottom-0 left-0 right-0 bg-green-500 text-white p-4 text-center'>
 					Data updated successfully
