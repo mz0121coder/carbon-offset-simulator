@@ -18,7 +18,7 @@ const CarbonOffsets = ({ summary, monthlyEmissions }) => {
 	}));
 
 	return (
-		<div className='border border-black w-[90vw] h-[60vw] md:w-[45vw] md:h-[30vw]'>
+		<div className='h-auto md:w-[45vw]'>
 			<h2 className='text-center font-bold'>Carbon Offsets</h2>
 			<ResponsiveContainer width='100%' height='100%'>
 				<LineChart
