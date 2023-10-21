@@ -70,11 +70,11 @@ const SimInputs = () => {
 	const handleSubmit = () => {
 		const newSummary = getSummary(formData);
 		console.log({ newSummary });
-		setSummary(newSummary);
+		// setSummary(newSummary);
 		setShowSnackbar(true);
 		setTimeout(() => {
 			setShowSnackbar(false);
-		}, 3000);
+		}, 2000);
 	};
 
 	return (
