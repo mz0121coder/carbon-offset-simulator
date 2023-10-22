@@ -6,6 +6,8 @@ A clean, responsive and practical simulator, to track the potential carbon offse
 
 ## Demo
 
+![app-demo](./simulator/src/assets/carbon-offset-simulator-demo.gif)
+
 ## Functionality
 
 This app allows the user to select a country for tree planting, adjust upfront and annual maintenance costs, as well as annual CO2 offset (kg) per tree, time for a tree to fully grow, and trees planted per month.
@@ -42,16 +44,16 @@ Clone this repository, open it in your IDE such as VS Code, and run these comman
 
 **Client:** React, Vite, Recoil, TailwindCSS, Recharts
 
-- React and Vite for building a fast, optimised frontend
+- React and Vite for building a fast, optimised frontend (with routing from React Router DOM).
 - Recoil is a global state management library (similar to Redux) for small to medium sized projects and prototypes.
-- TailwindCSS was used due to personal preference and its high levels of customisation.
-- Recharts for charting with React
+- TailwindCSS was used due to its efficiency and high levels of customisation.
+- Recharts for charting with React.
 
 Local Storage is used to keep state between runs on the client side.
 
 **Server:** Node, JSON Server
 
-- Node to run and debug JavaScript code locally
+- Node to run and debug JavaScript code locally.
 - JSON Server was used early in the project to create a mock REST API to test various endpoints and CRUD operations before transferring to the deployed version.
 
 **Testing:** Codium AI
