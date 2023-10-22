@@ -20,7 +20,7 @@ Using the app is very easy, both on Netlify and locally:
 
 ### Deployment
 
-This app is [hosted on Netlify](https://switch2zero-mz.netlify.app/).
+This app is [hosted on Netlify](https://carbon-offset-simulator.netlify.app/).
 
 From there, you will be shown the landing page, where you can:
 

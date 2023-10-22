@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import logo from './assets/mz-tech-logo.png';
+import logo from './assets/tree-logo.png';
 import SimInputs from './components/SimInputs';
 import Summary from './components/Summary';
 
@@ -21,7 +21,7 @@ const App = () => {
 					<div className='w-24 h-24 p-2 bg-white rounded-full shadow-lg'>
 						<img
 							src={logo}
-							alt='MZ tech logo'
+							alt='Tree logo'
 							className='w-full h-full object-contain'
 						/>
 					</div>
