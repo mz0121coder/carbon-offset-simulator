@@ -29,7 +29,7 @@ const Expenditure = ({ summary }) => {
 	};
 
 	return (
-		<div className='w-[95vw] md:w-[50vw] text-center'>
+		<div className='w-[100vw] max-w-[700px] text-center'>
 			<h2 className='font-bold text-lg'>Total Expenses</h2>
 			<ResponsiveContainer width='100%' height={350}>
 				<AreaChart data={data}>

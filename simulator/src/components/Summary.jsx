@@ -33,8 +33,7 @@ const Summary = () => {
 
 	return (
 		<>
-			{' '}
-			<div className='w-[90vw] h-auto md:w-[50vw] md:h-auto p-4 bg-gray-100 rounded'>
+			<div className='w-[95vw] max-w-[750px] h-auto p-4 bg-gray-100 rounded'>
 				{!summary ? (
 					<p className='text-center text-lg'>
 						Please submit data to generate a summary.
@@ -124,9 +123,10 @@ const Summary = () => {
 					summary={summary}
 					monthlyEmissions={summary.monthlyEmissions}
 				/>
+			</Suspense>
+			<Suspense fallback={<div>Loading...</div>}>
 				<Expenditure summary={summary} />
 			</Suspense>
-			<Suspense fallback={<div>Loading...</div>}></Suspense>
 		</>
 	);
 };

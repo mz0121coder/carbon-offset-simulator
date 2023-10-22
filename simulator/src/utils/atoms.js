@@ -1,7 +1,3 @@
-// this file contains default global states that can be reused and updated throughout the project
-
-import { atom } from 'recoil';
-
 export const defaultInputs = {
 	country: 'United States',
 	annualConsumption: 15.52,
@@ -12,25 +8,6 @@ export const defaultInputs = {
 	timeToGrow: 5,
 	inflation: 3.7,
 };
-
-export const loggedInState = atom({
-	key: 'loggedInState',
-	default: true,
-});
-
-export const simulatorInputs = atom({
-	key: 'simulatorInputs',
-	default: {
-		country: 'United States',
-		annualConsumption: 15.52,
-		upfrontCost: 120,
-		annualCost: 12,
-		carbonOffset: 30,
-		treesPerMonth: 1,
-		timeToGrow: 5,
-		inflation: 3.7,
-	},
-});
 
 export const countryData = {
 	'United States': 15.52,
