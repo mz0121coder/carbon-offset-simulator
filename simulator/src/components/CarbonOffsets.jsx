@@ -17,7 +17,7 @@ const CarbonOffsets = ({ summary, monthlyEmissions }) => {
 		monthlyEmissions: monthlyEmissions,
 	}));
 
-	const colorScheme = ['#FF6384', '#36A2EB']; // Add your custom color scheme here
+	const colorScheme = ['#FF6384', '#36A2EB'];
 
 	return (
 		<div className='w-[100vw] max-w-[700px] text-center'>
