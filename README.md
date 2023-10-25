@@ -42,24 +42,11 @@ Clone this repository, open it in your IDE such as VS Code, and run these comman
 
 ## Tech Stack
 
-**Client:** React, Vite, Recoil, TailwindCSS, Recharts
+- React and Vite for building a fast, optimised frontend
+- TailwindCSS for styling (mostly just personal preference)
+- Recharts for displaying the offsets & expenses
 
-- React and Vite for building a fast, optimised frontend (with routing from React Router DOM).
-- Recoil is a global state management library (similar to Redux) for small to medium sized projects and prototypes.
-- TailwindCSS was used due to its efficiency and high levels of customisation.
-- Recharts for charting with React.
-
-Local Storage is used to keep state between runs on the client side.
-
-**Server:** Node, JSON Server
-
-- Node to run and debug JavaScript code locally.
-- JSON Server was used early in the project to create a mock REST API to test various endpoints and CRUD operations before transferring to the deployed version.
-
-**Testing:** Codium AI
-
-- Codium is an AI powered VS code extension for generating local functional and component tests.
-- In the future I might also implement end to end testing with Cypress.
+Local Storage is used to keep state between runs.
 
 ## Optimisations
 

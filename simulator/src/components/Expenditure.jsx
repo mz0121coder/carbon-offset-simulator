@@ -30,7 +30,7 @@ const Expenditure = ({ summary }) => {
 
 	return (
 		<div className='w-[100vw] max-w-[700px] text-center'>
-			<h2 className='font-bold text-lg'>Total Expenses</h2>
+			<h2 className='font-bold text-lg'>Total Expenses - USD $</h2>
 			<ResponsiveContainer width='100%' height={350}>
 				<AreaChart data={data}>
 					<CartesianGrid strokeDasharray='3 3' />

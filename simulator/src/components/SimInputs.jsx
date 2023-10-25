@@ -30,6 +30,7 @@ const SimInputs = () => {
 	const [summary, setSummary] = useState(
 		() => JSON.parse(localStorage.getItem('summary')) || ''
 	);
+	const [showInfoModal, setShowInfoModal] = useState(false);
 
 	// Save summary and form data to local storage
 	useEffect(() => {
@@ -99,7 +100,12 @@ const SimInputs = () => {
 				{/* offset per year - kg */}
 				<div className='flex flex-col'>
 					<label htmlFor='carbonOffset' className='font-bold'>
-						Carbon Offset
+						Carbon Offset {'  '}
+						<button
+							className='bg-blue-500 hover:bg-blue-700 text-white rounded-full w-5 h-5 inline-flex items-center justify-center'
+							onClick={() => setShowInfoModal(true)}>
+							<span>i</span>
+						</button>
 					</label>
 					<select
 						id='carbonOffset'
@@ -194,7 +200,7 @@ const SimInputs = () => {
 				{/* average CO2 consumption / yr - metric tons */}
 				<div className='flex flex-col'>
 					<label htmlFor='annualConsumption' className='font-bold'>
-						Avg CO2 / yr
+						Avg CO2 / yr {window.innerWidth > 400 && ' (kg)'}
 					</label>
 					<input
 						type='number'
@@ -208,7 +214,7 @@ const SimInputs = () => {
 				{/* inflation updated dynamically */}
 				<div className='flex flex-col'>
 					<label htmlFor='inflation' className='font-bold'>
-						Inflation Rate
+						Inflation % / yr
 					</label>
 					<input
 						type='number'
@@ -257,6 +263,23 @@ const SimInputs = () => {
 								No
 							</button>
 						</div>
+					</div>
+				</div>
+			)}
+			{showInfoModal && (
+				<div
+					className={`fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center ${
+						showInfoModal ? 'visible' : 'invisible'
+					}`}>
+					<div className='bg-white p-4 rounded'>
+						<p className='text-center'>
+							Annual carbon offset (kg) for a fully grown tree
+						</p>
+						<button
+							className='px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-700'
+							onClick={() => setShowInfoModal(false)}>
+							Close
+						</button>
 					</div>
 				</div>
 			)}

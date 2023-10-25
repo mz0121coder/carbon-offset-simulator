@@ -21,7 +21,9 @@ const CarbonOffsets = ({ summary, monthlyEmissions }) => {
 
 	return (
 		<div className='w-[100vw] max-w-[700px] text-center'>
-			<h2 className='text-center font-bold text-lg'>Carbon Offsets</h2>
+			<h2 className='text-center font-bold text-lg'>
+				Carbon Offsets - kg / month
+			</h2>
 			<ResponsiveContainer width='100%' height={350}>
 				<LineChart
 					data={data}
