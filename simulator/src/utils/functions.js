@@ -13,8 +13,6 @@ export const getSummary = inputs => {
 	// inflation adjusted monthly upkeep
 	const annualInflationRate = inputs.inflation / 100;
 	const monthlyInflationRate = Math.pow(1 + annualInflationRate, 1 / 12) - 1;
-	const costPerMonth =
-		inputs.annualCost / 12 + monthlyInflationRate * (inputs.annualCost / 12);
 
 	let treeCount = 0;
 	const treesPlanted = [];
@@ -24,14 +22,25 @@ export const getSummary = inputs => {
 
 	// update the values each month
 	while (offsetPerMonth < monthlyEmissions) {
+		offsetPerMonth = 0;
 		months++;
+		// cost per month adjusted for inflation
+		const costPerMonth =
+			inputs.annualCost / 12 +
+			(Math.pow(1 + monthlyInflationRate, months) - 1) *
+				(inputs.annualCost / 12);
 		treeCount += inputs.treesPerMonth;
-		// add up total + purchase costs
-		totalCosts += inputs.upfrontCost * inputs.treesPerMonth;
-		purchaseCosts += inputs.upfrontCost * inputs.treesPerMonth;
+		// add up total + purchase costs (adjusted for inflation)
+		totalCosts +=
+			inputs.upfrontCost *
+			Math.pow(1 + monthlyInflationRate, months) *
+			inputs.treesPerMonth;
+		purchaseCosts +=
+			inputs.upfrontCost *
+			Math.pow(1 + monthlyInflationRate, months) *
+			inputs.treesPerMonth;
 		// add up monthly + total maintenance costs
-		monthlyMaintenanceCosts =
-			treeCount * (costPerMonth + costPerMonth * monthlyInflationRate);
+		monthlyMaintenanceCosts = treeCount * costPerMonth;
 
 		totalCosts += monthlyMaintenanceCosts;
 		totalMaintenanceCosts += monthlyMaintenanceCosts;
